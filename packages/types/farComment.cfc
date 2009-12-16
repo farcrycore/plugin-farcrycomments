@@ -71,7 +71,55 @@
 		<cfargument name="objectid" type="uuid" required="true" hint="The comment objectid" />
 		<cfargument name="moderators" type="string" required="true" hint="A list of email addresses and profile objectids" />
 		
+		<cfset var moderator = "" />
+		<cfset var stProfile = structnew() />
+		<cfset var stComment = application.fapi.getContentObject(objectid=arguments.objectid,typename="farComment") />
+		<cfset var stObject = application.fapi.getContentObject(objectid=stComment.articleID,typename=stComment=articleType) />
 		
+		<cfloop list="#arguments.moderators#" index="moderator">
+			<!--- If this is a UUID retrieve the related profile email address --->
+			<cfif isvalid("uuid",moderator)>
+				<cfset stProfile = application.fAPI.getContentObject("dmProfile").getData(objectid=moderator) />
+				<cfset moderator = stProfile.emailaddress />
+			</cfif>
+			
+			<!--- If this is a valid email address send the notification --->
+			<cfif isvalid("email",moderator)>
+				<cfmail from="#application.config.general.adminemail#" to="#email#" subject="#application.ApplicationName#: Comment added to '#stObject.label#'" type="html">
+					<p>A viewer has commented on an article</p>
+					<ul>
+						<li>View/Approve the comment - <a href="http://#cgi.http_host#/webtop/admin/customadmin.cfm?module=customlists/farComment.cfm&plugin=farcrycomments&articleID=#stObject.objectid#" target="_blank">Comment Administration</a></li>
+						<li>View the Article - <a href="http://#cgi.http_host#/index.cfm?objectid=#stObject.objectid#" target="_blank">#stObject.label#</a></li>
+					</ul>
+				</cfmail>
+			</cfif>
+		</cfloop>
+	</cffunction>
+	
+	<cffunction name="notifySubscribers" access="public" output="false" returntype="void" hint="Sends notification emails to moderators">
+		<cfargument name="objectid" type="uuid" required="true" hint="The comment objectid" />
+		
+		<cfset var stComment = application.fapi.getContentObject(objectid=arguments.objectid,typename="farComment") />
+		<cfset var stObject = application.fapi.getContentObject(objectid=stComment.articleID,typename=stComment=articleType) />
+		<cfset var qSubscribers = "" />
+		
+		<cfquery datasource="#application.dsn#" name="qSubscribers">
+			select		email
+			from		#application.dbowner#farComment
+			where		articleID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stObject.objectid#" />
+						and bSubscribe=<cfqueryparam cfsqltype="cf_sql_bit" value="1" />
+						and not email=<cfqueryparam cfsqltype="cf_sql_varchar" value="" />
+						and not objectid=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stComment.objectid#" />
+		</cfquery>
+		
+		<cfloop query="qSubscribers">
+			<!--- If this is a valid email address send the notification --->
+			<cfif isvalid("email",qSubscribers.email)>
+				<cfmail from="#application.config.general.adminemail#" to="#qSubscribers.email#" subject="#application.ApplicationName#: Comment added to '#stObject.label#'" type="html">
+					<p>A new comment has been posted.</p>
+				</cfmail>
+			</cfif>
+		</cfloop>
 	</cffunction>
 	
 </cfcomponent>

@@ -15,6 +15,7 @@
 			<cfset stComment.objectid = ID />
 			<cfset stComment.bApproved = true />
 			<cfset oComment.setData(stProperties=stComment) />
+			<cfset oComment.notifySubscribers(objectid=stComment.objectid) />
 		</cfloop>
 	</cfif>
 </ft:processform>
@@ -51,6 +52,11 @@
 		arrayAppend(aButtons,stBut);
 </cfscript>
 
+<cfif isdefined("url.articleID")>
+	<cfset sqlwhere = "articleID in ('#listchangedelims(url.articleID,"','")#')">
+<cfelse>
+	<cfset sqlwhere = "" />
+</cfif>
 
 <!--- set up page header --->
 <admin:header title="Comments Administration" />
@@ -64,6 +70,7 @@
 	SortableColumns="articleType,commentHandle,comment,bApproved,datetimecreated"
 	lFilterFields="articleType,commentHandle,comment"
 	sqlorderby="datetimecreated DESC"
+	sqlwhere="#sqlwhere#"
 	aButtons="#aButtons#"
 	lcustomactions="Approve Comment" />
 

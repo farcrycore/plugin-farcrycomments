@@ -14,9 +14,15 @@
 
 
 <cfif NOT structkeyexists(url, "commentAdded")>
-
+	
+	<cfif arguments.stParam.bAllowSubscriptions>
+		<cfset lFields = "commentHandle,email,bSubscribe,comment" />
+	<cfelse>
+		<cfset lFields = "commentHandle,email,comment" />
+	</cfif>
+	
 	<ft:form name="postComment">
-		<ft:object stObject="#stObj#" lFields="commentHandle,email,comment" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
+		<ft:object stObject="#stObj#" lFields="#lFields#" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
 		<ft:farcryButtonPanel>
 			<ft:button value="Post Comment" bSpamProtect="true" />
 			<ft:button value="Cancel" validate="false" />
