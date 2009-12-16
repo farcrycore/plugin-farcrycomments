@@ -41,13 +41,15 @@
 				<cfset notifySubscribers(objectid=lsavedobjectids) />
 			</cfif>
 			
-			<skin:bubble title="Comment Posted" bAutoHide="false">
+			<cfsavecontent variable="stLocal.message">
 				<cfoutput><p>Thank you for your comment</p></cfoutput>
 				
 				<cfif arguments.stParam.moderated>
 					<cfoutput><p>Comments on this post are moderated and so you will not see your comment until it is reviewed by a moderator.</p></cfoutput>
 				</cfif>
-			</skin:bubble>
+			</cfsavecontent>
+			
+			<skin:bubble title="Comment Posted" message="#stLocal.message#" bAutoHide="false" />
 		</cfif>
 	</ft:processForm>
 	
