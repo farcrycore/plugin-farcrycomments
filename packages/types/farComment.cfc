@@ -8,7 +8,7 @@
 	<cfproperty ftSeq="13" ftFieldset="Comment" name="email" type="string" required="false" default="" hint="Email address of poster" ftLabel="Email" ftValidation="validate-email" />
 	<cfproperty ftSeq="14" ftFieldset="Comment" name="website" type="string" required="false" default="" hint="Website address of poster" ftLabel="Website" ftType="url" />
 	
-	<cfproperty ftSeq="21" ftFieldset="Comment" name="bApproved" type="boolean" required="true" default="1" hint="Flag for approved comment" ftLabel="Published" />
+	<cfproperty ftSeq="21" ftFieldset="Comment" name="status" type="string" required="true" default="approved" ftLabel="Published" />
 	
 	<cfproperty ftSeq="31" ftFieldset="Comment" name="profileID" type="UUID" required="false" default="" hint="A member profile if commentor is a member" ftLabel="MemberID" ftJoin="dmProfile" />
 	<cfproperty ftSeq="32" ftFieldset="Comment" name="bSubscribe" type="boolean" required="true" default="0" hint="Flag for thread subscription" ftLabel="Subscribe to thread?" ftType="boolean" />
@@ -23,7 +23,7 @@
 			select		objectid
 			from		#application.dbowner#farComment
 			where		articleID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.articleID#" />
-						and bApproved=<cfqueryparam cfsqltype="cf_sql_bit" value="1" />
+						and status in (<cfqueryparam cfsqltype="cf_sql_varchar" list="true" value="#request.lvalidstatus#" />)
 			order by	datetimecreated <cfif arguments.order eq "latest-first">desc<cfelse>asc</cfif>
 		</cfquery>
 		
@@ -74,12 +74,12 @@
 		<cfset var moderator = "" />
 		<cfset var stProfile = structnew() />
 		<cfset var stComment = application.fapi.getContentObject(objectid=arguments.objectid,typename="farComment") />
-		<cfset var stObject = application.fapi.getContentObject(objectid=stComment.articleID,typename=stComment=articleType) />
+		<cfset var stObject = application.fapi.getContentObject(objectid=stComment.articleID,typename=stComment.articleType) />
 		
 		<cfloop list="#arguments.moderators#" index="moderator">
 			<!--- If this is a UUID retrieve the related profile email address --->
 			<cfif isvalid("uuid",moderator)>
-				<cfset stProfile = application.fAPI.getContentObject("dmProfile").getData(objectid=moderator) />
+				<cfset stProfile = application.fAPI.getContentObject(objectid=moderator,typename="dmProfile") />
 				<cfset moderator = stProfile.emailaddress />
 			</cfif>
 			
@@ -100,7 +100,7 @@
 		<cfargument name="objectid" type="uuid" required="true" hint="The comment objectid" />
 		
 		<cfset var stComment = application.fapi.getContentObject(objectid=arguments.objectid,typename="farComment") />
-		<cfset var stObject = application.fapi.getContentObject(objectid=stComment.articleID,typename=stComment=articleType) />
+		<cfset var stObject = application.fapi.getContentObject(objectid=stComment.articleID,typename=stComment.articleType) />
 		<cfset var qSubscribers = "" />
 		
 		<cfquery datasource="#application.dsn#" name="qSubscribers">
@@ -119,6 +119,33 @@
 					<p>A new comment has been posted.</p>
 				</cfmail>
 			</cfif>
+		</cfloop>
+	</cffunction>
+	
+	<cffunction name="transferComments" access="public" output="false" returntype="void" hint="Transfers comments between objects">
+		<cfargument name="fromID" type="uuid" required="true" hint="The current article ID" />
+		<cfargument name="toID" type="uuid" required="true" hint="The new article ID" />
+		<cfargument name="toType" type="string" required="false" hint="The type of the new article" />
+		
+		<cfset var qComments = "" />
+		<cfset var stComment = structnew() />
+		
+		<cfif not structkeyexists(arguments,"toType")>
+			<cfset arguments.toType = application.fapi.findType(objectid=arguments.toType) />
+		</cfif>
+		
+		<cfquery datasource="#application.dsn#" name="qComments">
+			select	objectid
+			from	#application.dbowner#farComment
+			where	articleID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fromID#" />
+		</cfquery>
+		
+		<cfloop query="qComments">
+			<cfset stComment = structnew() />
+			<cfset stComment.objectid = qComments.objectid />
+			<cfset stComment.articleID = arguments.toID />
+			<cfset stComment.articleType = arguments.toType />
+			<cfset setData(stProperties=stComment) />
 		</cfloop>
 	</cffunction>
 	

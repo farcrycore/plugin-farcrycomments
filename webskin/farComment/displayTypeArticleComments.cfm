@@ -24,7 +24,11 @@
 		<ft:processFormObjects typename="farComment" r_stProperties="stProps">
 			<cfset stProps.articleID = arguments.stParam.articleID />
 			<cfset stProps.articleType = arguments.stParam.articleType />
-			<cfset stProps.bApproved = not arguments.stParam.moderated />
+			<cfif arguments.stParam.moderated>
+				<cfset stProps.status = "draft" />
+			<cfelse>
+				<cfset stProps.status = "approved" />
+			</cfif>
 			<cfif isdefined("session.dmProfile.objectid")>
 				<cfset stProps.profileID = session.dmProfile.objectid />
 			</cfif>

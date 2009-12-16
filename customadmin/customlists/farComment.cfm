@@ -13,7 +13,7 @@
 		<cfloop list="#form.selectedObjectid#" index="ID">
 			<cfset stComment = structNew() />
 			<cfset stComment.objectid = ID />
-			<cfset stComment.bApproved = true />
+			<cfset stComment.status = true />
 			<cfset oComment.setData(stProperties=stComment) />
 			<cfset oComment.notifySubscribers(objectid=stComment.objectid) />
 		</cfloop>
@@ -54,6 +54,8 @@
 
 <cfif isdefined("url.articleID")>
 	<cfset sqlwhere = "articleID in ('#listchangedelims(url.articleID,"','")#')">
+<cfelseif isdefined("url.articleType")>
+	<cfset sqlwhere = "articleType in ('#listchangedelims(url.articleType,"','")#')">
 <cfelse>
 	<cfset sqlwhere = "" />
 </cfif>
