@@ -13,7 +13,7 @@
 		<cfloop list="#form.selectedObjectid#" index="ID">
 			<cfset stComment = structNew() />
 			<cfset stComment.objectid = ID />
-			<cfset stComment.status = true />
+			<cfset stComment.status = "approved" />
 			<cfset oComment.setData(stProperties=stComment) />
 			<cfset oComment.notifySubscribers(objectid=stComment.objectid) />
 		</cfloop>
@@ -54,10 +54,22 @@
 
 <cfif isdefined("url.articleID")>
 	<cfset sqlwhere = "articleID in ('#listchangedelims(url.articleID,"','")#')">
+	<cfset stArticle = application.fapi.getContentObject(objectid=listfirst(url.articleID)) />
+	<cfset title = "Comments for #stArticle.label#" />
+	<cfif listlen(url.articleID) gt 1>
+		<cfset title = "#title# et al." />
+	</cfif>
 <cfelseif isdefined("url.articleType")>
 	<cfset sqlwhere = "articleType in ('#listchangedelims(url.articleType,"','")#')">
+	<cfif structkeyexists(application.stCOAPI[listfirst(url.articleType)],"displayname")>
+		<cfset title = "Comments for #application.stCOAPI[listfirst(url.articleType)].displayname#" />
+	</cfif>
+	<cfif listlen(url.articleType) gt 1>
+		<cfset title = "#title# et al." />
+	</cfif>
 <cfelse>
 	<cfset sqlwhere = "" />
+	<cfset title = "Comments" />
 </cfif>
 
 <!--- set up page header --->
@@ -65,11 +77,11 @@
 
 <ft:objectAdmin
 	plugin="farcrycomments"
-	title="Comments Administration"
+	title="#title#"
 	typename="farComment"
-	ColumnList="articleType,commentHandle,comment,bApproved,datetimecreated"
+	ColumnList="articleType,commentHandle,comment,status,datetimecreated"
 	lcustomcolumns="Article:cellArticleTitle"
-	SortableColumns="articleType,commentHandle,comment,bApproved,datetimecreated"
+	SortableColumns="articleType,commentHandle,comment,status,datetimecreated"
 	lFilterFields="articleType,commentHandle,comment"
 	sqlorderby="datetimecreated DESC"
 	sqlwhere="#sqlwhere#"

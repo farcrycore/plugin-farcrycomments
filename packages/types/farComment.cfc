@@ -85,7 +85,7 @@
 			
 			<!--- If this is a valid email address send the notification --->
 			<cfif isvalid("email",moderator)>
-				<cfmail from="#application.config.general.adminemail#" to="#email#" subject="#application.ApplicationName#: Comment added to '#stObject.label#'" type="html">
+				<cfmail from="#application.config.general.adminemail#" to="#moderator#" subject="#application.ApplicationName#: Comment added to '#stObject.label#'" type="html">
 					<p>A viewer has commented on an article</p>
 					<ul>
 						<li>View/Approve the comment - <a href="http://#cgi.http_host#/webtop/admin/customadmin.cfm?module=customlists/farComment.cfm&plugin=farcrycomments&articleID=#stObject.objectid#" target="_blank">Comment Administration</a></li>

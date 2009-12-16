@@ -41,7 +41,7 @@
 		<cfif len(lsavedobjectids)>
 			<cfset notifyModerators(objectid=lsavedobjectids,moderators=arguments.stParam.moderators) />
 			<cfset stComment = getData(objectid=lsavedobjectids) />
-			<cfif stComment.bApproved>
+			<cfif stComment.status eq "approved">
 				<cfset notifySubscribers(objectid=lsavedobjectids) />
 			</cfif>
 			
