@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<webtop>
+	<section id="content" mergeType="merge">
+		<subsection id="contentpublishing" mergeType="merge">
+			<menu id="farcrycomments" label="Comments">
+				<menuitem id="farcommentlist" sequence="5" label="Comments" link="/admin/customadmin.cfm?module=customlists/farComment.cfm&amp;plugin=farcrycomments" relatedtype="farComment" />
+			</menu>
+		</subsection>
+	</section>
+</webtop>
