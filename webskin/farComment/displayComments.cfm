@@ -1,6 +1,9 @@
 <cfsetting enablecfoutputonly="true" />
 <!--- @@displayname: Article comments --->
 
+<!--- @@cacheStatus:1 --->
+<!--- @@cacheTypeWatch: farComment --->
+
 <!--- import tag libraries --->
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 
