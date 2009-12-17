@@ -1,4 +1,4 @@
-<cfcomponent displayname="Comment" hint="Generic comment" extends="farcry.core.packages.types.types" output="false">
+<cfcomponent displayname="Comment" hint="Generic comment" extends="farcry.core.packages.types.types" output="false" bObjectBroker="1">
 	<!--- properties --->
 	<cfproperty ftSeq="1" ftFieldset="Comment" name="articleID" type="UUID" required="false" default="" hint="Article content object reference" ftLabel="Article" />
 	<cfproperty ftSeq="2" ftFieldset="Comment" name="articleType" type="string" required="false" default="" hint="Article content type" ftLabel="Article type" ftType="list" ftListData="getTypes" />
