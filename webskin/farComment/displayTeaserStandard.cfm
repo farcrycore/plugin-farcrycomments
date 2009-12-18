@@ -1,6 +1,8 @@
 <cfsetting enablecfoutputonly="true" />
 <!--- @@displayname: Comment --->
 
+<!--- @@cacheStatus: 1 --->
+
 <cfif NOT len(stObj.commentHandle)>
 	<cfset stObj.commentHandle = "Secret Admirer" />
 </cfif>
