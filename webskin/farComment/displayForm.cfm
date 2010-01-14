@@ -5,20 +5,22 @@
 <!--- @@Description: User-side comment form --->
 <!--- @@Developer: Ezra Parker (ezra@cfgrok.com) --->
 
-<!--- @@cacheStatus: 0 --->
+<!--- @@cacheStatus: 1 --->
 
 <!--- import tag libraries --->
 <cfimport prefix="ft" taglib="/farcry/core/tags/formtools" />
 <cfimport prefix="skin" taglib="/farcry/core/tags/webskin" />
-<cfimport prefix="extjs" taglib="/farcry/core/tags/extjs" />
-
 
 <cfif NOT structkeyexists(url, "commentAdded")>
 	
-	<cfif arguments.stParam.bAllowSubscriptions>
-		<cfset lFields = "commentHandle,email,bSubscribe,comment" />
+	<cfif structKeyExists(arguments.stParam, "lFields")>
+		<cfset lFields = arguments.stParam.lFields />
 	<cfelse>
-		<cfset lFields = "commentHandle,email,comment" />
+		<cfif arguments.stParam.bAllowSubscriptions>
+			<cfset lFields = "commentHandle,email,bSubscribe,comment" />
+		<cfelse>
+			<cfset lFields = "commentHandle,email,comment" />
+		</cfif>
 	</cfif>
 	
 	<ft:form name="postComment">

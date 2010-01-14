@@ -60,10 +60,10 @@
 	<ft:processForm action="Cancel" url="#application.fapi.getLink(objectid=arguments.stParam.articleID)#" />
 
 
-<!--- VIEW --->
+	<!--- VIEW --->
 	<cfoutput><div id="comments"></cfoutput>
 		<skin:view typename="farComment" webskin="displayComments" stParam="#arguments.stParam#" />
-		<cfif arguments.stParam.bAllowFurtherComments>
+		<cfif arguments.stParam.bAllowFurtherComments>	
 			<skin:view typename="farComment" webskin="displayForm" key="addcomment-#arguments.stParam.articleID#" stParam="#arguments.stParam#" />
 		</cfif>
 	<cfoutput></div></cfoutput>

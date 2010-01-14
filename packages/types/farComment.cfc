@@ -20,11 +20,12 @@
 		<cfset var q = "" />
 		
 		<cfquery datasource="#application.dsn#" name="q">
-			select		objectid
-			from		#application.dbowner#farComment
-			where		articleID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.articleID#" />
-						and status in (<cfqueryparam cfsqltype="cf_sql_varchar" list="true" value="#request.lvalidstatus#" />)
-			order by	datetimecreated <cfif arguments.order eq "latest-first">desc<cfelse>asc</cfif>
+			SELECT objectid
+			FROM #application.dbowner#farComment
+			WHERE 
+				articleID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.articleID#" /> AND
+				status IN (<cfqueryparam cfsqltype="cf_sql_varchar" list="true" value="#request.lvalidstatus#" />)
+			ORDER BY datetimecreated <cfif arguments.order eq "latest-first">desc<cfelse>asc</cfif>
 		</cfquery>
 		
 		<cfreturn q />
