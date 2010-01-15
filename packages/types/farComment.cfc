@@ -1,17 +1,22 @@
 <cfcomponent displayname="Comment" hint="Generic comment" extends="farcry.core.packages.types.types" output="false" bObjectBroker="1">
+
 	<!--- properties --->
 	<cfproperty ftSeq="1" ftFieldset="Comment" name="articleID" type="UUID" required="false" default="" hint="Article content object reference" ftLabel="Article" />
 	<cfproperty ftSeq="2" ftFieldset="Comment" name="articleType" type="string" required="false" default="" hint="Article content type" ftLabel="Article type" ftType="list" ftListData="getTypes" />
 	
 	<cfproperty ftSeq="11" ftFieldset="Comment" name="commentHandle" type="string" required="false" default="" hint="Name or handle of poster"  ftLabel="Name" />
-	<cfproperty ftSeq="12" ftFieldset="Comment" name="comment" type="longchar" required="false" default="" hint="The comment" ftLabel="Comment" ftValidation="required" />
-	<cfproperty ftSeq="13" ftFieldset="Comment" name="email" type="string" required="false" default="" hint="Email address of poster" ftLabel="Email" ftValidation="validate-email" />
-	<cfproperty ftSeq="14" ftFieldset="Comment" name="website" type="string" required="false" default="" hint="Website address of poster" ftLabel="Website" ftType="url" />
+	<cfproperty ftSeq="12" ftFieldset="Comment" name="location" type="string" required="false" default="" hint="location of poster"  ftLabel="Location" />
+	<cfproperty ftSeq="13" ftFieldset="Comment" name="comment" type="longchar" required="false" default="" hint="The comment" ftLabel="Comment" ftValidation="required" />
+	<cfproperty ftSeq="14" ftFieldset="Comment" name="email" type="string" required="false" default="" hint="Email address of poster" ftLabel="Email" ftValidation="validate-email" />
+	<cfproperty ftSeq="15" ftFieldset="Comment" name="website" type="string" required="false" default="" hint="Website address of poster" ftLabel="Website" ftType="url" />
 	
 	<cfproperty ftSeq="21" ftFieldset="Comment" name="status" type="string" required="true" default="approved" ftLabel="Published" />
 	
 	<cfproperty ftSeq="31" ftFieldset="Comment" name="profileID" type="UUID" required="false" default="" hint="A member profile if commentor is a member" ftLabel="MemberID" ftJoin="dmProfile" />
 	<cfproperty ftSeq="32" ftFieldset="Comment" name="bSubscribe" type="boolean" required="true" default="0" hint="Flag for thread subscription" ftLabel="Subscribe to thread?" ftType="boolean" />
+
+	<!--- req taglibs --->
+	<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 	
 	<cffunction name="getApprovedComments" access="public" output="false" returntype="query" hint="Returns the objectids of approved comments for an article">
 		<cfargument name="articleID" type="uuid" required="true" hint="The related article" />
@@ -117,7 +122,20 @@
 			<!--- If this is a valid email address send the notification --->
 			<cfif isvalid("email",qSubscribers.email)>
 				<cfmail from="#application.config.general.adminemail#" to="#qSubscribers.email#" subject="#application.ApplicationName#: Comment added to '#stObject.label#'" type="html">
-					<p>A new comment has been posted.</p>
+					<cfoutput>
+						<p>A new comment has been posted.</p>
+						
+						<p>Article: 
+					</cfoutput>
+
+					<skin:buildLink includeDomain="1" objectID="#stObject.objectID#">
+						<cfoutput>#stObject.label#</cfoutput>
+					</skin:buildLink>
+					
+					<cfoutput>
+						</p>
+					</cfoutput>
+					
 				</cfmail>
 			</cfif>
 		</cfloop>

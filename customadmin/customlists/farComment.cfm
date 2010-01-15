@@ -72,6 +72,10 @@
 	<cfset title = "Comments" />
 </cfif>
 
+<cfif structKeyExists(url,"status")>
+	<cfset sqlWhere = "#sqlWhere# AND status='#url.status#'" />
+</cfif>
+
 <!--- set up page header --->
 <admin:header title="Comments Administration" />
 
