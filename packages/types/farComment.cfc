@@ -13,7 +13,7 @@
 	<cfproperty ftSeq="21" ftFieldset="Comment" name="status" type="string" required="true" default="approved" ftLabel="Published" />
 	
 	<cfproperty ftSeq="31" ftFieldset="Comment" name="profileID" type="UUID" required="false" default="" hint="A member profile if commentor is a member" ftLabel="MemberID" ftJoin="dmProfile" />
-	<cfproperty ftSeq="32" ftFieldset="Comment" name="bSubscribe" type="boolean" required="true" default="0" hint="Flag for thread subscription" ftLabel="Subscribe to thread?" ftType="boolean" />
+	<cfproperty ftSeq="32" ftFieldset="Comment" name="bSubscribe" type="boolean" required="true" default="0" hint="Flag for thread subscription" ftLabel="Subscribe?" ftType="boolean" />
 
 	<!--- req taglibs --->
 	<cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
@@ -166,6 +166,19 @@
 			<cfset stComment.articleType = arguments.toType />
 			<cfset setData(stProperties=stComment) />
 		</cfloop>
+	</cffunction>
+
+	<cffunction name="getCommentTypes" access="public" output="false">
+		
+		<cfset var q = "" />
+		
+		<cfquery datasource="#application.dsn#" name="q">
+			select distinct articleType
+			from #application.dbowner#farComment
+			order by articleType DESC
+		</cfquery>
+		
+		<cfreturn valueList(q.articleType) />
 	</cffunction>
 	
 </cfcomponent>
