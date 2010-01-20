@@ -1,5 +1,5 @@
 
-<cfcomponent displayname="Comment Aggregator" extends="farcry.core.packages.rules.rules" hint="this rule publishes comments from multiple user defined content types" bObjectBroker="true">
+<cfcomponent displayname="Comments" extends="farcry.core.packages.rules.rules" hint="this rule publishes comments from multiple user defined content types" bObjectBroker="true">
 
 	<cfproperty ftSeq="1" ftFieldset="General Details" name="nComments" type="numeric" hint="The items to be displayed" ftIncludeDecimal="false" ftLabel="Number of Comments" />
 	<cfproperty ftSeq="2" ftFieldSet="General Details" name="lTypes" type="string" required="false" default="" ftType="List" ftListData="getCommentTypes" ftListDataTypename="farComment" ftRenderType="checkbox" ftLabel="Source" />
