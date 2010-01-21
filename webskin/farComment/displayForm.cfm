@@ -30,6 +30,8 @@
 			<ft:button value="Cancel" validate="false" />
 		</ft:farcryButtonPanel>
 	</ft:form>
+	
+	<cfoutput>*Required field</cfoutput>
 
 </cfif>
 
