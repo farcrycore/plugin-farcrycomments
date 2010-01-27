@@ -4,7 +4,7 @@
 	<cfproperty ftSeq="1" ftFieldset="Comment" name="articleID" type="UUID" required="false" default="" hint="Article content object reference" ftLabel="Article" />
 	<cfproperty ftSeq="2" ftFieldset="Comment" name="articleType" type="string" required="false" default="" hint="Article content type" ftLabel="Article type" ftType="list" ftListData="getTypes" />
 	
-	<cfproperty ftSeq="11" ftFieldset="Comment" name="commentHandle" type="string" required="false" default="" hint="Name or handle of poster"  ftLabel="Name" />
+	<cfproperty ftSeq="11" ftFieldset="Comment" name="commentHandle" type="string" required="false" default="" hint="Name or handle of poster" ftLabel="Name" ftValidation="required" />
 	<cfproperty ftSeq="12" ftFieldset="Comment" name="location" type="string" required="false" default="" hint="location of poster"  ftLabel="Location" />
 	<cfproperty ftSeq="13" ftFieldset="Comment" name="comment" type="longchar" required="false" default="" hint="The comment" ftLabel="Comment" ftValidation="required" />
 	<cfproperty ftSeq="14" ftFieldset="Comment" name="email" type="string" required="false" default="" hint="Email address of poster" ftLabel="Email" ftValidation="validate-email" />
