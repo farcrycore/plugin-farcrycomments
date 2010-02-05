@@ -7,6 +7,6 @@
 <!--- unsubscribe user --->
 <cfset unsubscribe(stObj.objectID) />
 
-<cfoutput>You have now been unsubscribed</cfoutput>
+<cfoutput>You have now been unsubscribed.</cfoutput>
 
 <cfsetting enablecfoutputonly="false" />
