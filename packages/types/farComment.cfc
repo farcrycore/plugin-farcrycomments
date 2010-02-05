@@ -110,7 +110,7 @@
 		<cfset var qSubscribers = "" />
 		
 		<cfquery datasource="#application.dsn#" name="qSubscribers">
-			select		email
+			select		email, objectID AS commentObjID
 			from		#application.dbowner#farComment
 			where		articleID=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stObject.objectid#" />
 						and bSubscribe=<cfqueryparam cfsqltype="cf_sql_bit" value="1" />
@@ -134,11 +134,34 @@
 					
 					<cfoutput>
 						</p>
+						<p>
 					</cfoutput>
+
+					<skin:buildLink includeDomain="1" objectID="#commentObjID#" bodyView="displayUnsubscribe">
+						<cfoutput>Unsubscribe from this article</cfoutput>
+					</skin:buildLink>
 					
+					<cfoutput>
+						</p>
+					</cfoutput>
+
 				</cfmail>
 			</cfif>
 		</cfloop>
+	</cffunction>
+	
+	<cffunction name="unsubscribe" access="public" output="false" returntype="void">
+		<cfargument name="objectid" type="uuid" required="true" hint="The comment objectid" />
+		
+		<cfset var qSubscribe = queryNew("") />
+		
+		<cfquery datasource="#application.dsn#" name="qSubscribers">
+			UPDATE farComment
+			SET bSubscribe = 0
+			WHERE objectID = <cfqueryparam value="#arguments.objectID#" cfsqltype="cf_sql_varchar" />
+		</cfquery>
+		
+		<cfreturn />
 	</cffunction>
 	
 	<cffunction name="transferComments" access="public" output="false" returntype="void" hint="Transfers comments between objects">
