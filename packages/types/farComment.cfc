@@ -7,7 +7,7 @@
 	<cfproperty ftSeq="11" ftFieldset="Comment" name="commentHandle" type="string" required="false" default="" hint="Name or handle of poster" ftLabel="Name" ftValidation="required" />
 	<cfproperty ftSeq="12" ftFieldset="Comment" name="location" type="string" required="false" default="" hint="location of poster"  ftLabel="Location" />
 	<cfproperty ftSeq="13" ftFieldset="Comment" name="comment" type="longchar" required="false" default="" hint="The comment" ftLabel="Comment" ftValidation="required" />
-	<cfproperty ftSeq="14" ftFieldset="Comment" name="email" type="string" required="false" default="" hint="Email address of poster" ftLabel="Email" ftValidation="validate-email" />
+	<cfproperty ftSeq="14" ftFieldset="Comment" name="email" type="string" required="false" default="" hint="Email address of poster" ftLabel="Email" />
 	<cfproperty ftSeq="15" ftFieldset="Comment" name="website" type="string" required="false" default="" hint="Website address of poster" ftLabel="Website" ftType="url" />
 	
 	<cfproperty ftSeq="21" ftFieldset="Comment" name="status" type="string" required="true" default="approved" ftLabel="Published" />
