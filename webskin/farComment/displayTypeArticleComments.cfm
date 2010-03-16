@@ -17,8 +17,6 @@
 <!--- ACTION --->
 	<!--- Form processing needs to be done here, since the comments may be displayed before the form --->
 	
-	<!--- PERFORM SERVER SIDE VALIDATION --->
-	<ft:serverSideValidation />
 	
 	<ft:processForm action="Post Comment" url="#application.fapi.fixURL(addvalues='commentAdded=true')#">
 		<!--- process action items --->
