@@ -36,6 +36,22 @@
 		<cfreturn q />
 	</cffunction>
 	
+	<cffunction name="getApprovedCommentCount" access="public" output="false" returntype="numeric" hint="Returns the number of approved comments for an article">
+		<cfargument name="articleID" type="uuid" required="true" hint="The related article" />
+		
+		<cfset var q = "" />
+		
+		<cfquery datasource="#application.dsn#" name="q">
+			SELECT count(objectid) as nComments
+			FROM #application.dbowner#farComment
+			WHERE 
+				articleID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.articleID#" /> AND
+				status IN (<cfqueryparam cfsqltype="cf_sql_varchar" list="true" value="#request.lvalidstatus#" />)
+		</cfquery>
+		
+		<cfreturn q.nComments />
+	</cffunction>	
+	
 	<cffunction name="getTypes" access="public" output="false" returntype="query" hint="Returns the types that are currently commented on">
 		<cfset var q = "" />
 		<cfset var qEmpty = querynew("value,name") />
