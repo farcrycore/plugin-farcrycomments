@@ -18,7 +18,7 @@
 	<!--- Form processing needs to be done here, since the comments may be displayed before the form --->
 	
 	
-	<ft:processForm action="Post Comment" url="#application.fapi.fixURL(addvalues='commentAdded=true')#">
+	<ft:processForm action="Post Comment" url="#application.fapi.fixURL(addvalues='commentAdded=true')#" bSpamProtect="true">
 		<!--- process action items --->
 		<ft:processFormObjects typename="farComment" r_stProperties="stProps">
 			<cfset stProps.articleID = arguments.stParam.articleID />
