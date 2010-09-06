@@ -4,6 +4,7 @@
 	<cfproperty ftSeq="1" ftFieldset="General Details" name="nComments" type="numeric" hint="The items to be displayed" ftIncludeDecimal="false" ftLabel="Number of Comments" />
 	<cfproperty ftSeq="2" ftFieldSet="General Details" name="lTypes" type="string" required="false" default="" ftType="List" ftListData="getCommentTypes" ftListDataTypename="farComment" ftRenderType="checkbox" ftLabel="Source" />
 	<cfproperty ftSeq="3" ftFieldSet="General Details" name="displayMethod" type="string" hint="Display method to render this rule with." required="yes" default="displayTeaserStandard" ftType="webskin" ftTypeName="farComment" ftPrefix="displayTeaser" ftLabel="Display Method" />
+	<cfproperty ftSeq="4" ftFieldSet="General Details" name="charCount" type="numeric" hint="character count of comment to show" required="no" default="40" ftDefault="40" ftLabel="Character Count" />
 
 	<cffunction name="getComments" access="public" output="false" returntype="query">
 		<cfargument name="items" type="numeric" required="true" />
