@@ -79,6 +79,11 @@
 <!--- set up page header --->
 <admin:header title="Comments Administration" />
 
+<!--- remove validation --->
+<cfset stFilterMetaData = StructNew() />
+<cfset stFilterMetaData.commentHandle.ftValidation = "" />
+<cfset stFilterMetaData.comment.ftValidation = "" />
+
 <ft:objectAdmin
 	plugin="farcrycomments"
 	title="#title#"
@@ -90,7 +95,8 @@
 	sqlorderby="datetimecreated DESC"
 	sqlwhere="#sqlwhere#"
 	aButtons="#aButtons#"
-	lcustomactions="Approve Comment" />
+	lcustomactions="Approve Comment" 
+	stFilterMetaData="#stFilterMetaData#"/>
 
 <admin:footer />
 
