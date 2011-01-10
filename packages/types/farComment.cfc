@@ -125,6 +125,8 @@
 		<cfset var stObject = application.fapi.getContentObject(objectid=stComment.articleID,typename=stComment.articleType) />
 		<cfset var qSubscribers = "" />
 		
+		<cfparam name="application.config.comments.siteurl" default="#cgi.server_name#">
+		
 		<cfquery datasource="#application.dsn#" name="qSubscribers">
 			select		email, objectID AS commentObjID
 			from		#application.dbowner#farComment
@@ -144,7 +146,7 @@
 						
 						<p>Article: 
 					</cfoutput>
-					<cfset link=application.fapi.getLink(objectid=stObject.objectID,includeDomain=true,domain=application.config.comment.siteurl)>
+					<cfset link=application.fapi.getLink(objectid=stObject.objectID,includeDomain=true,domain=application.config.comments.siteurl)>
 					<cfoutput>
 						<a href="#link#">#stObject.label#</a>
 					</cfoutput>
