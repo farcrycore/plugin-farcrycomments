@@ -26,7 +26,7 @@
 		ftType="string" />
 
 	<cfproperty ftSeq="1" 
-		ftFieldset="Site Description" 
+		ftFieldset="" 
 		name="siteurl" 
 		type="string" 
 		default="" 
