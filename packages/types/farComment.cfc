@@ -134,6 +134,7 @@
 						and not objectid=<cfqueryparam cfsqltype="cf_sql_varchar" value="#stComment.objectid#" />
 		</cfquery>
 		
+		
 		<cfloop query="qSubscribers">
 			<!--- If this is a valid email address send the notification --->
 			<cfif isvalid("email",qSubscribers.email)>
@@ -143,10 +144,10 @@
 						
 						<p>Article: 
 					</cfoutput>
-
-					<skin:buildLink includeDomain="1" objectID="#stObject.objectID#">
-						<cfoutput>#stObject.label#</cfoutput>
-					</skin:buildLink>
+					<cfset link=application.fapi.getLink(objectid=stObject.objectID,includeDomain=true,domain=application.config.comment.siteurl)>
+					<cfoutput>
+						<a href="#link#">#stObject.label#</a>
+					</cfoutput>
 					
 					<cfoutput>
 						</p>
