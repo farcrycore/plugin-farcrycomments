@@ -23,7 +23,7 @@
 		</cfif>
 	</cfif>
 	
-	<ft:form name="postComment">
+	<ft:form name="postComment" bAjaxSubmission="#request.mode.ajax#">
 		<ft:object stObject="#stObj#" lFields="#lFields#" format="edit" legend="Make a Comment" helptext="HTML not allowed.  Links will be automatically activated." />
 		<ft:farcryButtonPanel>
 			<ft:button value="Post Comment" bSpamProtect="true" />
