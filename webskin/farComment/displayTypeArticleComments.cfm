@@ -2,7 +2,7 @@
 <cfimport taglib="/farcry/core/tags/webskin" prefix="skin" />
 <cfimport taglib="/farcry/core/tags/formtools" prefix="ft" />
 
-<cfloop list="articleID,articleType,bAllowFurtherComments,bAllowSubscriptions" index="stLocal.thisparam">
+<cfloop list="articleID,articleType,bAllowFurtherComments,bAllowSubscriptions,lFields" index="stLocal.thisparam">
 	<cfif structkeyexists(url,stLocal.thisparam)>
 		<cfset arguments.stParam[stLocal.thisparam] = url[stLocal.thisparam] />
 	</cfif>
