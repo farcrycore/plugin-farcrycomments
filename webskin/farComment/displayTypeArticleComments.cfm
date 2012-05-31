@@ -11,7 +11,8 @@
 <cfparam name="arguments.stParam.articleID" />
 <cfparam name="arguments.stParam.articleType" />
 <cfset stLocal.stArticle = application.fapi.getContentObject(typename=arguments.stParam.articleType,objectid=arguments.stParam.articleID) />
-
+<cfparam name="arguments.stParam.moderated" default="#application.fapi.getConfig('comments','bmoderate', 0)#" /><!--- Set to 1 to hide comments until they're reviewed --->
+<cfparam name="arguments.stParam.moderators" default="#listappend(application.fapi.getConfig('comments','moderators', ''),stLocal.stArticle.ownedby)#" /><!--- The list of moderator profile ids, or email address, to send comment notifications to --->
 <cfparam name="arguments.stParam.bAllowFurtherComments" default="1" /><!--- Set to 0 to disable comment posting --->
 <cfparam name="arguments.stParam.bAllowSubscriptions" default="0" /><!--- Set to 1 to allow commenters to subscribe to the comment thread --->
 
@@ -25,7 +26,7 @@
 		<ft:processFormObjects typename="farComment" r_stProperties="stProps">
 			<cfset stProps.articleID = arguments.stParam.articleID />
 			<cfset stProps.articleType = arguments.stParam.articleType />
-			<cfif application.fapi.getConfig('comments','bmoderate', 0)>
+			<cfif arguments.stParam.moderated>
 				<cfset stProps.status = "draft" />
 			<cfelse>
 				<cfset stProps.status = "approved" />
@@ -40,7 +41,7 @@
 		</ft:processFormObjects>
 		
 		<cfif len(lsavedobjectids)>
-			<cfset notifyModerators(objectid=lsavedobjectids,moderators=listappend(application.fapi.getConfig('comments','moderators', ''),stLocal.stArticle.ownedby)) />
+			<cfset notifyModerators(objectid=lsavedobjectids,moderators=arguments.stParam.moderators) />
 			<cfset stComment = getData(objectid=lsavedobjectids) />
 			<cfif stComment.status eq "approved">
 				<cfset notifySubscribers(objectid=lsavedobjectids) />
@@ -49,7 +50,7 @@
 			<cfsavecontent variable="stLocal.message">
 				<cfoutput><p>Thank you for your comment</p></cfoutput>
 				
-				<cfif application.fapi.getConfig('comments','bmoderate', 0)>
+				<cfif arguments.stParam.moderated>
 					<cfoutput><p>Comments on this post are moderated and so you will not see your comment until it is reviewed by a moderator.</p></cfoutput>
 				</cfif>
 			</cfsavecontent>
