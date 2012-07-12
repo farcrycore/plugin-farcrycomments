@@ -11,7 +11,8 @@
 <cfparam name="arguments.stParam.articleID" />
 <cfparam name="arguments.stParam.articleType" />
 <cfset stLocal.stArticle = application.fapi.getContentObject(typename=arguments.stParam.articleType,objectid=arguments.stParam.articleID) />
-
+<cfparam name="arguments.stParam.moderated" default="#application.fapi.getConfig('comments','bmoderate', 0)#" /><!--- Set to 1 to hide comments until they're reviewed --->
+<cfparam name="arguments.stParam.moderators" default="#listappend(application.fapi.getConfig('comments','moderators', ''),stLocal.stArticle.ownedby)#" /><!--- The list of moderator profile ids, or email address, to send comment notifications to --->
 <cfparam name="arguments.stParam.bAllowFurtherComments" default="1" /><!--- Set to 0 to disable comment posting --->
 <cfparam name="arguments.stParam.bAllowSubscriptions" default="0" /><!--- Set to 1 to allow commenters to subscribe to the comment thread --->
 
