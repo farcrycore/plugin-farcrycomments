@@ -16,7 +16,10 @@
 			SELECT	TOP #numberFormat(arguments.items)# objectID
 			FROM	#application.dbowner#farComment
 			WHERE	
-				articleType IN ('#replace(arguments.ltypes,",","','","all")#') AND 
+				articleType IN (<cfqueryparam 
+                value="#arguments.ltypes#" 
+                cfsqltype="CF_SQL_VARCHAR" 
+                list="yes">)  AND 
 				status = 'approved'
 			ORDER BY dateTimeCreated DESC
 		</cfquery>
