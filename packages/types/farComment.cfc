@@ -1,4 +1,4 @@
-6<cfcomponent displayname="Comment" hint="Generic comment" extends="farcry.core.packages.types.types" output="false" bObjectBroker="1">
+<cfcomponent displayname="Comment" hint="Generic comment" extends="farcry.core.packages.types.types" output="false" bObjectBroker="1">
 
 	<!--- properties --->
 	<cfproperty ftSeq="1"  name="articleID" type="UUID" required="false" default="" hint="Article content object reference" ftLabel="Article" />
