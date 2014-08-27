@@ -13,7 +13,7 @@
 		<cfset var qComments = queryNew("") />
 
 		<cfquery datasource="#application.dsn#" name="qComments">
-			SELECT	TOP #numberFormat(arguments.items)# objectID
+			SELECT <cfif application.dbtype NEQ "mysql">TOP #round(arguments.items)#</cfif> objectID
 			FROM	#application.dbowner#farComment
 			WHERE	
 				articleType IN (<cfqueryparam 
@@ -22,6 +22,7 @@
                 list="yes">)  AND 
 				status = 'approved'
 			ORDER BY dateTimeCreated DESC
+			<cfif application.dbtype EQ "mysql">LIMIT #round(arguments.items)#</cfif>
 		</cfquery>
 		
 		<cfreturn qComments />
